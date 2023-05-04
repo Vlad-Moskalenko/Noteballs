@@ -1,6 +1,10 @@
 <script setup>
 import { computed } from '@vue/reactivity';
 
+import { useNotes } from '../../stores/notes';
+
+const storeNotes = useNotes();
+
 const props = defineProps({
   note: {
     type: Object,
@@ -13,14 +17,6 @@ const contentLength = computed(() => {
   const description = length > 1 ? 'characters' : 'character';
   return `${length} ${description}`;
 });
-
-/*handle delete note */
-
-const emit = defineEmits(['deleteNote']);
-
-const handleDeleteNote = id => {
-  emit('deleteNote', id);
-};
 </script>
 
 <template>
@@ -34,8 +30,13 @@ const handleDeleteNote = id => {
       </div>
     </div>
     <footer class="card-footer">
-      <button class="card-footer-item button is-info is-light">Edit</button>
-      <button @click="handleDeleteNote(note.id)" class="card-footer-item button is-danger is-light">
+      <RouterLink :to="`/edit/${note.id}`" class="card-footer-item button is-info is-light"
+        >Edit</RouterLink
+      >
+      <button
+        @click="storeNotes.deleteNote(note.id)"
+        class="card-footer-item button is-danger is-light"
+      >
         Delete
       </button>
     </footer>

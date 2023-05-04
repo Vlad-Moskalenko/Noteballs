@@ -29,8 +29,16 @@ const toggleMobileNav = () => (showMobileNav.value = !showMobileNav.value);
       </div>
       <div :class="showMobileNav && 'is-active'" id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
-          <RouterLink class="navbar-item" to="/" active-class="is-active">Notes</RouterLink>
-          <RouterLink class="navbar-item" to="/stats" active-class="is-active">Stats</RouterLink>
+          <RouterLink @click="toggleMobileNav" class="navbar-item" to="/" active-class="is-active"
+            >Notes</RouterLink
+          >
+          <RouterLink
+            @click="toggleMobileNav"
+            class="navbar-item"
+            to="/stats"
+            active-class="is-active"
+            >Stats</RouterLink
+          >
         </div>
       </div>
     </div>
