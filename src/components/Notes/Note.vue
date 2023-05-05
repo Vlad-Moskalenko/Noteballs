@@ -1,9 +1,7 @@
 <script setup>
-import { computed } from '@vue/reactivity';
+import { computed, reactive } from 'vue';
 
-import { useNotes } from '../../stores/notes';
-
-const storeNotes = useNotes();
+import ModalDelete from './ModalDelete.vue';
 
 const props = defineProps({
   note: {
@@ -16,6 +14,11 @@ const contentLength = computed(() => {
   const length = props.note.content.length;
   const description = length > 1 ? 'characters' : 'character';
   return `${length} ${description}`;
+});
+
+/*modal delete*/
+const modals = reactive({
+  deleteNote: false,
 });
 </script>
 
@@ -33,13 +36,11 @@ const contentLength = computed(() => {
       <RouterLink :to="`/edit/${note.id}`" class="card-footer-item button is-info is-light"
         >Edit</RouterLink
       >
-      <button
-        @click="storeNotes.deleteNote(note.id)"
-        class="card-footer-item button is-danger is-light"
-      >
+      <button @click="modals.deleteNote = true" class="card-footer-item button is-danger is-light">
         Delete
       </button>
     </footer>
+    <ModalDelete v-if="modals.deleteNote" v-model="modals.deleteNote" :noteId="note.id" />
   </div>
 </template>
 

@@ -1,10 +1,17 @@
 <script setup>
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
+
 import { useNotes } from '../stores/notes';
+import { vAutofocus } from '../directives/vAutofocus';
+import { useWatchCharacters } from '../use/useWatchCharacters';
 
 const noteStores = useNotes();
+const input = ref('');
 
 const { getTotalNotes, getTotalCharacters } = storeToRefs(noteStores);
+
+useWatchCharacters(input, 50);
 </script>
 
 <template>
@@ -27,6 +34,7 @@ const { getTotalNotes, getTotalCharacters } = storeToRefs(noteStores);
         </tr>
       </tbody>
     </table>
+    <input v-model="input" v-autofocus class="input" type="text" placeholder="Do you" />
   </div>
 </template>
 

@@ -1,10 +1,18 @@
 <script setup>
-/*mobile nav*/
 import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+
+/*mobile nav*/
 
 const showMobileNav = ref(false);
 
 const toggleMobileNav = () => (showMobileNav.value = !showMobileNav.value);
+
+/*click outside to close*/
+const navbar = ref(null);
+const burgerMenu = ref(null);
+
+onClickOutside(navbar, () => showMobileNav.value && toggleMobileNav(), { ignore: [burgerMenu] });
 </script>
 
 <template>
@@ -21,13 +29,19 @@ const toggleMobileNav = () => (showMobileNav.value = !showMobileNav.value);
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
+          ref="burgerMenu"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div :class="showMobileNav && 'is-active'" id="navbarBasicExample" class="navbar-menu">
+      <div
+        ref="navbar"
+        :class="showMobileNav && 'is-active'"
+        id="navbarBasicExample"
+        class="navbar-menu"
+      >
         <div class="navbar-end">
           <RouterLink @click="toggleMobileNav" class="navbar-item" to="/" active-class="is-active"
             >Notes</RouterLink
